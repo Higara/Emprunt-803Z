@@ -1,0 +1,26 @@
+Bienvenue dans l'application de gestion du matériel et des emprunts de l'association 803Z.
+
+Cette application est organisée selon une structure MVC : Modèle - View - Controlleur.
+
+Pour expliquer simplement son fonctionnement dans l'ordre :
+
+La page index.php récupère : 
+-la configuration pour la connexion au serveur (config.php),
+-les valeurs de controller, action et éventuellement id dans l'URL
+
+Elle appelle ensuite la View layout.php, qui est donc le modèle de base pour toutes les autres pages (on va y trouver par exemple tous les fichiers css, js et le menu communs à toutes les pages).
+
+layout.php appelle le fichier de routage routes.php, qui :
+1-recense toutes les routes (donc tous les urls possible)
+2-appelle le controlleur nécessaire selon l'URL et récupère l'action à faire à travers le controlleur
+
+LES CONTROLLEURS :
+On en a actuellement 3 : 
+MaterielController gère l'affichage, la création, la modification et la suppression de matériel
+
+UserController gère l'affichage, la création, la modification et la suppression d'utilisateurs
+
+EmpruntController gère l'affichage, la création, la modification et la suppression d'emprunts
+
+
+Chacun des Controllers appelle le Modèle correspondant (materiel.php, user.php, emprunt.php) afin de créer des objets de classes Materiel, User ou Emprunt
