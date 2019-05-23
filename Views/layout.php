@@ -14,8 +14,7 @@
   </head>
   <body>
     <header>
-      <a href='?controller=Materiel&action=index'>Voir le matériel</a>
-
+      <a href='?controller=Materiel&action=index'>Tout le matériel</a>
       <?php 
       if(!isset($_SESSION['connecte'])) { ?>
         <a href='?controller=User&action=add'>Inscription</a>
@@ -26,12 +25,19 @@
       { 
           if($_SESSION['statut']=='2' || $_SESSION['statut']=='3')
           { ?>
+              
               <a href='?controller=Materiel&action=edit'>Modifier le matériel</a>
               <a href='?controller=Materiel&action=add'>Ajout de materiel</a>
+              <a href='?controller=Emprunt&action=showAll'>Tous les emprunts</a>
+              <a href='?controller=User&action=liste'>Tous les utilisateurs</a>
           <?php 
           } ?>
         <a href='?controller=Emprunt&action=add'>Faire une demande d'emprunt</a>
-        <a href='?controller=User&action=edit&id=<?php echo $_SESSION['id']?>'>Modifier le profil</a>
+        <a href='?controller=Emprunt&action=index'>Mes emprunts</a>
+        <a href='?controller=Projet&action=add'>Ajouter un projet</a>
+        <a href='?controller=Projet&action=index'>Mes projets</a>
+        <a href='?controller=Projet&action=edit'>Modifier un projet</a>
+        <a href='?controller=User&action=edit&id=<?php echo $_SESSION['id']?>'>Mon profil</a>
         <a href='?controller=User&action=deconnexion'>Se déconnecter</a>
       <?php 
       } ?>

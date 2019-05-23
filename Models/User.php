@@ -57,6 +57,17 @@ class User{
       return false;
    }
 
+   public static function verifUser($id_user){
+    //on vérifie que l'emprunt appartient bien à l'utilisateur OU que l'utilisateur est un admin
+      $user = User::get($id_user);
+      if($user !== 0 && $user->id_user == $_SESSION['id'] || $_SESSION['statut'] == '2' || $_SESSION['statut'] == '3'){
+          return 1 ;
+      }
+      else {
+        return 0;
+      }
+   }
+
 
   //retourne un seul utilisateur
   public static function get( $id_user ) 

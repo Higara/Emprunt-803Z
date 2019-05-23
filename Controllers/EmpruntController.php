@@ -13,7 +13,7 @@ class EmpruntController
 	public function index(){
 		$list = Emprunt::getByUser($_SESSION['id']);
 		foreach ($list as $emprunt) {
-			echo "<p> Description : ".$emprunt->ref_emprunt."</p>";
+			echo "<p> Ref : ".$emprunt->ref_emprunt."</p>";
 		}
 	}
 
@@ -36,10 +36,17 @@ class EmpruntController
 
 	public function delete(){
 		$db = Db::getInstance();
-		$sql = "DELETE FROM emprunts
+		$verifUser = Emprunt::verifUser($this->ref_emprunt);
+		if($verifUser == 1){
+			$sql = "DELETE FROM emprunts
 				WHERE ref_emprunt = '".$this->ref_emprunt."'";
-	    $sth = $db->prepare($sql);
-	    $sth->execute();
+	    	$sth = $db->prepare($sql);
+	    	$sth->execute();
+		}
+		else {
+			echo "Vous n'avez pas les droits sur cet emprunt</br>";
+		}
+		
 	}
 
 	public function add(){
@@ -53,9 +60,17 @@ class EmpruntController
 		$emprunt = new Emprunt();
 		$emprunt->hydrate( $_POST );
 		$emprunt->setRef();
-		$sql = "INSERT INTO emprunts VALUES ".$emprunt->getProperties();
-	    $sth = $db->prepare($sql);
-	    $sth->execute();
+		$dispo = Emprunt::verifDispo($emprunt->ref_objet, $emprunt->date_debut, $emprunt->date_fin);
+		if($dispo == 1){
+			$sql = "INSERT INTO emprunts VALUES ".$emprunt->getProperties();
+	    	$sth = $db->prepare($sql);
+	    	$sth->execute();
+		}
+		else {
+			echo "Veuillez recommencer l'emprunt</br>";
+			return 0;
+		}
+		
 	}
 
 	public function edit(){
@@ -84,7 +99,7 @@ class EmpruntController
 					date_debut = '".$emprunt->date_debut."', 
 					date_fin = '".$emprunt->date_fin."', 
 					id_projet = ".$emprunt->id_projet.", 
-					remarques = '".$emprunt->remarques."' 
+					remarques = '".addslashes($emprunt->remarques)."' 
 					WHERE ref_emprunt = '".$this->ref_emprunt."'";
 		echo $sql;
 	    $sth = $db->prepare($sql);

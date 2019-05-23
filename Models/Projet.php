@@ -20,8 +20,15 @@ class Projet
     $sql = "SELECT * FROM projets WHERE id_projet = '".$id_projet."'";
     $sth = $db->prepare($sql);
     $sth->execute();
-    $projet->hydrate($sth->fetch());
-    return $projet;
+    if($sth->fetch() !== false){
+      $sth->execute();
+      $projet->hydrate($sth->fetch());
+      return $projet;
+    }
+    else {
+      //echo "</br> Mais cette référence est déjà prise !";
+      return 0;
+    }
   }
 
 
@@ -68,8 +75,20 @@ class Projet
     }
 
     return $list;
-   }
 
+  }
+   
+
+  public static function verifUser($id_projet){
+    //on vérifie que le projet appartient bien à l'utilisateur OU que l'utilisateur est un admin
+      $projet = Projet::get($id_projet);
+      if($projet !== 0 && $projet->id_user == $_SESSION['id'] || $_SESSION['statut'] == '2' || $_SESSION['statut'] == '3'){
+          return 1 ;
+      }
+      else {
+        return 0;
+      }
+   }
 
   public function hydrate(array $data)
   {
@@ -83,7 +102,7 @@ class Projet
    public function getProperties(){
     //permet de retourner les propriétés sous forme d'un string pour injection directe dans le sql
 
-      $prop="('".$this->id_user."', '".$this->nom."','".$this->description."')";
+      $prop="('".$this->id_user."', '".addslashes($this->nom)."','".addslashes($this->description)."')";
       echo $prop;
       return $prop;
    }

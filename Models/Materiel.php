@@ -56,7 +56,7 @@ class Materiel
 
    public function getProperties(){
     //permet de retourner les propriétés sous forme d'un string pour injection directe dans le sql
-      $prop="('".$this->ref_objet."','".$this->nom_objet."', ".$this->id_type.",'".$this->description."','".$this->etat."')";
+      $prop="('".$this->ref_objet."','".$this->nom_objet."', ".$this->id_type.",'".addslashes($this->description)."','".addslashes($this->etat)."')";
       echo $prop;
       return $prop;
    }

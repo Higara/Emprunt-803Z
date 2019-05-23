@@ -41,11 +41,11 @@
                        //'posts' => ['index', 'show'],
                       'Materiel' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'show'],
 
-                      'Emprunt' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'show'],
+                      'Emprunt' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'show', 'showAll'],
 
-                      'User' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'show', 'connexion', 'sessionStart', 'deconnexion'],
+                      'User' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'show', 'connexion', 'sessionStart', 'deconnexion', 'liste'],
 
-                      'Projet' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete']);
+                      'Projet' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'addParticipant', 'addSaveParticipant']);
 
   if (array_key_exists($controller, $controllers)) {
     if (in_array($action, $controllers[$controller])) {

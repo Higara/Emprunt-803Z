@@ -3,8 +3,6 @@ if(!isset($_SESSION['connecte'])) {
     echo "Vous n'êtes pas autorisé à accéder à cette page";
   }
 else { 
-
-
   ?>
 
 <!DOCTYPE html>
@@ -19,19 +17,25 @@ else {
 </head>
 <body>
   <div class="container">
-<h1>Modifier le projet <?php echo $projet->nom ?></h1>
-  <form action="?controller=Projet&action=editSave&id=<?php echo $projet->id_projet ?>" method="POST" enctype = "multipart/form-data">
-     <form action="?controller=Projet&action=addSave" method="POST" enctype = "multipart/form-data">
-    <div class="form-group row">
-      <label class="col-2 col-form-label">Nom du projet</label>
-      <div class="col-10">
-        <textarea type="text" name="nom" class="form-control" placeholder="Nom"/><?php echo $projet->nom ?></textarea>
+<h1>Ajouter un participant au projet</h1>
+  <form action="?controller=Projet&action=addSaveParticipant" method="POST" enctype = "multipart/form-data">
+    <div class="form-group row" style="display:none;">
+      <label class="col-2 col-form-label">Projet :</label>
+      <div class="col-5">
+        <input type="number" name="id_projet" class="form-control" value="<?php echo $this->id_projet; ?>" />
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-2 col-form-label">Description du projet</label>
-      <div class="col-10">
-        <textarea type="text" name="description" class="form-control" placeholder="Description"/><?php echo $projet->description ?></textarea>
+      <label class="col-2 col-form-label">Sélectionner un participant</label>
+      <div class="col-5">
+        <select class="form-control" name="id_user">
+        <?php 
+          //On va récuperer la liste d'utilisateur pour créer une liste déroulante
+           foreach ($listUser as $user) {
+            echo '<option value="'.$user->id_user.'">'.$user->nom." ".$user->prenom.'</option>';
+           }
+        ?>
+        </select>
       </div>
     </div>
     <div class="form-group row">
@@ -47,8 +51,8 @@ else {
 </body>
 </html>
 
-
 <?php 
+  $_POST['id_project'] = $projet->id_projet;
 
 }
 

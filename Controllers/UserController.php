@@ -20,18 +20,29 @@ class UserController
 	
 
 	public function liste(){
-		$list = User::getList();
-		foreach ($list as $user) {
-			echo "<p> Prénom : ".$user->prenom."</p>";
+		if($_SESSION['statut'] == '1'){
+			echo "Vous n'êtes pas autorisé à accéder à cette page";
+		}
+		else{
+			$list = User::getList();
+			foreach ($list as $user) {
+				echo "<p> Nom Prénom : ".$user->nom." ".$user->prenom."</p>";
+			}
 		}
 	}
 
 	public function delete(){
 		$db = Db::getInstance();
-		$sql = "DELETE FROM users
+		$verif = User::verifUser($this->id_user);
+		if($verif == 1){
+			$sql = "DELETE FROM users
 				WHERE id_user = ".$this->id_user;
-	    $sth = $db->prepare($sql);
-	    $sth->execute();
+	    	$sth = $db->prepare($sql);
+	    	$sth->execute();
+		}
+		else{
+			echo "Vous n'avez pas le droit de supprimer cet utilisateur";
+		}
 	}
 
 	public function add(){
@@ -50,14 +61,20 @@ class UserController
 
 	public function edit(){
 		echo $this->id_user;
-		$db = Db::getInstance();
-		$user = new user( $id_user );
-		$sql = "SELECT * FROM users WHERE id_user = '".$this->id_user."'";
-    	$sth = $db->prepare( $sql );
-    	$sth->execute();
-    	$user->hydrate($sth->fetch( \PDO::FETCH_ASSOC));
-    	echo $user->getProperties();
-    	require_once('Views/user/editUser.php');
+		$verif = User::verifUser($this->id_user);
+		if($verif == 1){
+			$db = Db::getInstance();
+			$user = new user( $id_user );
+			$sql = "SELECT * FROM users WHERE id_user = '".$this->id_user."'";
+	    	$sth = $db->prepare( $sql );
+	    	$sth->execute();
+	    	$user->hydrate($sth->fetch( \PDO::FETCH_ASSOC));
+	    	echo $user->getProperties();
+	    	require_once('Views/user/editUser.php');
+	    }
+	    else{
+	    	echo "Vous n'avez pas le droit de modifier cet utilisateur";
+	    }
 
 	}
 
@@ -66,7 +83,6 @@ class UserController
 		$db = Db::getInstance();
 		$user = new User();
 		$user->hydrate( $_POST );
-		//'id_user', 'nom', 'prenom', 'id_statut', 'id_filiere', 'date_naissance', 'adresse', 'mail', 'password', 'telephone', 'cotisation', 'photo'
 		$sql = "UPDATE users
 				SET nom = '".$user->nom."',
 					prenom = '".$user->prenom."',
@@ -120,9 +136,7 @@ class UserController
 }
 
 	public function deconnexion() {
-	  //session_start();
 	  session_destroy();
-	  //redirect('');
 	}
 
 }

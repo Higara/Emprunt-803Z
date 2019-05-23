@@ -1,22 +1,18 @@
 <?php
 
-/*use Materiel;
-use Models\Emprunt;*/
-//use Models\User;
 include("/Models/User.php");
-//use
 
 class MaterielController
 {
-	//toutes les fonctions index, show etc et pour les admins delete, add, addsave, edit, editsave
 	public $ref_objet;
+
+
 
 	public function index(){
 		$list = Materiel::getList();
 		foreach ($list as $matos) {
 			echo "<p> Description : ".$matos->description."</p>";
 		}
-
 	}
 
 	public function show(){
@@ -26,11 +22,17 @@ class MaterielController
 	}
 
 	public function delete(){
-		$db = Db::getInstance();
-		$sql = "DELETE FROM materiels
-				WHERE ref_objet = '".$this->ref_objet."'";
-	    $sth = $db->prepare($sql);
-	    $sth->execute();
+		if($_SESSION['statut']=='1'){
+			echo "Vous n'êtes pas autorisé à faire cette action";
+		} 
+		else {
+			$db = Db::getInstance();
+			$sql = "DELETE FROM materiels
+					WHERE ref_objet = '".$this->ref_objet."'";
+	    	$sth = $db->prepare($sql);
+	    	$sth->execute();
+		}
+		
 	}
 
 	public function add(){
@@ -38,13 +40,19 @@ class MaterielController
 	}
 
 	public function addSave(){
-		$db = Db::getInstance();
-		//echo "blblblblbl".$_POST['ref_objet']."</br>";
-		$materiel = new Materiel();
-		$materiel->hydrate( $_POST );
-		$sql = "INSERT INTO materiels VALUES ".$materiel->getProperties();
-	    $sth = $db->prepare($sql);
-	    $sth->execute();
+		if($_SESSION['statut']=='1'){
+			echo "Vous n'êtes pas autorisé à faire cette action";
+		} 
+		else {
+			$db = Db::getInstance();
+			//echo "blblblblbl".$_POST['ref_objet']."</br>";
+			$materiel = new Materiel();
+			$materiel->hydrate( $_POST );
+			$sql = "INSERT INTO materiels VALUES ".$materiel->getProperties();
+	    	$sth = $db->prepare($sql);
+	    	$sth->execute();
+		}
+		
 	}
 
 	public function edit(){
@@ -60,7 +68,11 @@ class MaterielController
 	}
 
 	public function editSave(){
-		echo $this->ref_objet;
+		if($_SESSION['statut']=='1'){
+			echo "Vous n'êtes pas autorisé à faire cette action";
+		} 
+		else {
+			echo $this->ref_objet;
 		$db = Db::getInstance();
 		$materiel = new Materiel();
 		$materiel->hydrate( $_POST );
@@ -68,12 +80,14 @@ class MaterielController
 				SET ref_objet = '".$materiel->ref_objet."',
 					nom_objet = '".$materiel->nom_objet."',
 					id_type = ".$materiel->id_type.", 
-					description = '".$materiel->description."',
-					etat = '".$materiel->etat."' 
+					description = '".addslashes($materiel->description)."',
+					etat = '".addslashes($materiel->etat)."' 
 					WHERE ref_objet = '".$this->ref_objet."'";
 		echo $sql;
 	    $sth = $db->prepare($sql);
 	    $sth->execute();
+		}
+		
 	}
 
 
