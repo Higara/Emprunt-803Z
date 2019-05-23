@@ -1,0 +1,23 @@
+    <div id="emprunts-box">
+         
+        <div><h1>Bienvenue [PRENOM NOM]</h1></div>
+
+        <div><h2> Liste des projets </h2></div>
+
+
+
+        <div class="textbox">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Nom du projet">
+        </div>
+
+        <div class="textbox">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Mot de passe">
+        </div>
+
+
+        <form>
+            <input class="btn" type="button" value="Valider" onclick="window.location.href='principal.html'" />
+        </form>
+    </div>
