@@ -1,7 +1,7 @@
 <?php
 
   if(isset($_SESSION['connecte'])) { 
-     header('Location: /803Z?controller=Projet&action=index');
+    echo "Déjà connecté !";
     }
  else {
 ?>

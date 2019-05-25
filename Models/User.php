@@ -20,10 +20,10 @@ class User{
     return $nb;
   }
 
-  public static function getStatut($mail,$password)
+  public static function getByMail($mail,$password)
   {
     $db = Db::getInstance();
-    $sql = "SELECT id_statut FROM users WHERE mail='$mail' AND password='$password' LIMIT 1";
+    $sql = "SELECT * FROM users WHERE mail='$mail' AND password='$password' LIMIT 1";
     $sth = $db->prepare($sql);
     $sth->execute();
     //var_dump($sth->fetch());
@@ -34,7 +34,7 @@ class User{
 
   public static function getId($mail,$password){
     $db = Db::getInstance();
-    $sql = "SELECT id_user FROM users WHERE mail='$mail' AND password='$password' LIMIT 1";
+    $sql = "SELECT id_user, nom, prenom FROM users WHERE mail='$mail' AND password='$password' LIMIT 1";
     $sth = $db->prepare($sql);
     $sth->execute();
     $result = $sth->fetch();
@@ -46,7 +46,7 @@ class User{
       {
         extract($_SESSION['User']);
         $nb = User::connexion($mail, $password);
-        $statut = User::getStatut($mail, $password);
+        $statut = User::getByMail($mail, $password);
         $_SESSION['User']['statut']=$statut['id_statut'];
         if($nb > 0 && isset($_SESSION['User']['statut']))
         {

@@ -71,12 +71,53 @@ class Emprunt
     return $list;
    }
 
+
+
+   public static function getByMateriel($ref_objet){
+    $list = [];
+    //on ouvre l'accès à la bdd
+    $db = Db::getInstance();
+    $sql = 'SELECT * FROM emprunts WHERE ref_objet = '.$ref_objet;
+    $sth = $db->prepare($sql);
+    $sth->execute();
+
+    // Recuperer une liste d'objet emprunt
+    foreach($sth->fetchAll() as $emprunt) {
+      $curr = new Emprunt();
+      $curr->hydrate($emprunt);
+      $list[] = $curr;
+    }
+
+    return $list;
+   }
+
+    public static function getByProjet($id_projet){
+      $list = [];
+      //on ouvre l'accès à la bdd
+      $db = Db::getInstance();
+      $sql = 'SELECT * FROM emprunts WHERE id_projet = '.$id_projet;
+      $sth = $db->prepare($sql);
+      $sth->execute();
+
+      // Recuperer une liste d'objet emprunt
+      foreach($sth->fetchAll() as $emprunt) {
+        $curr = new Emprunt();
+        $curr->hydrate($emprunt);
+        $list[] = $curr;
+      }
+
+      return $list;
+   }
+
+
+
+
    public static function verifDispo($ref_objet, $date_debut, $date_fin){
     //on vérifie l'ordre des dates
     $debut = new DateTime($date_debut);
     $fin = new DateTime($date_fin);
     if( $fin < $debut ){
-      echo "erreur dans le choix des dates </br>";
+      echo "Veuillez mettre les dates dans l'ordre </br>";
       return 0;
     }
 
@@ -127,7 +168,7 @@ class Emprunt
         $date_aujourdhui = new DateTime('today');
         $date = new DateTime($emprunt->date_debut);
         if($date<=$date_aujourdhui){
-          echo "L'emprunt a déjà commencé, pas possible de le supprimer</br>";
+          echo "L'emprunt a déjà commencé, pas possible de le modifier</br>";
           return 0;
         }
         else{

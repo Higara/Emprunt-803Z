@@ -9,7 +9,7 @@
     public static function getInstance() {
       if (!isset(self::$instance)) {
         $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-        self::$instance = new PDO('mysql:host=sqletud.u-pem.fr;dbname=mrosenbe_db', 'mrosenbe', 'io7yuzPf5s', $pdo_options);
+        self::$instance = new PDO('mysql:host=localhost;dbname=803z', 'root', 'root', $pdo_options);
       }
       return self::$instance;
     }

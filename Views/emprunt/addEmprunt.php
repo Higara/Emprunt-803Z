@@ -4,24 +4,12 @@ if(!isset($_SESSION['connecte'])) {
   }
 else { 
   ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>TEST</title>
-  <!-- @@@ CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<body>
-  <div class="container">
+  <div id="shadow-form">
 <h1>Ajouter un emprunt</h1>
   <form action="?controller=Emprunt&action=addSave" method="POST" enctype = "multipart/form-data">
-    <div class="form-group row">
-      <label class="col-2 col-form-label">Objet</label>
-      <div class="col-5">
+    <div class="form-row">
+      <label>Objet</label>
+      <div class="textbox">
         <select class="form-control" name="ref_objet">
         <?php 
           //On va récuperer la liste de matériel pour créer une liste déroulante
@@ -32,43 +20,47 @@ else {
         </select>
       </div>
     </div>
-    <div class="form-group row">
-      <label class="col-2 col-form-label">date_debut</label>
-      <div class="col-5">
-        <input type="date" name="date_debut" class="form-control" placeholder="Id User" />
+    <div class="form-row">
+      <label>Date de début</label>
+      <div class="textbox">
+        <input type="date" name="date_debut" placeholder="Id User" />
       </div>
     </div>
-    <div class="form-group row">
-      <label class="col-2 col-form-label">date_fin</label>
-      <div class="col-5">
-        <input type="date" name="date_fin" class="form-control" placeholder="Id User" />
+    <div class="form-row">
+      <label>Date de fin</label>
+      <div class="textbox">
+        <input type="date" name="date_fin" placeholder="Id User" />
       </div>
     </div>
-    <div class="form-group row">
-      <label class="col-2 col-form-label">id_projet</label>
-      <div class="col-5">
-        <input type="number" name="id_projet" class="form-control" placeholder="ID Objet" />
+    <div class="form-row">
+      <label>Projet</label>
+      <div class="textbox">
+         <select name="id_projet">
+        <?php 
+          //On va récuperer la liste de projets pour créer une liste déroulante
+           foreach ($listProjet as $projet) {
+            echo '<option value="'.$projet->id_projet.'">'.$projet->nom.'</option>';
+           }
+        ?>
+        </select>
       </div>
     </div>
-    <div class="form-group row">
-      <label class="col-2 col-form-label">remarques</label>
-      <div class="col-10">
-        <textarea type="text" name="remarques" class="form-control" placeholder="Remarques"/></textarea>
+    <div class="form-row">
+      <label>Remarques</label>
+      <div class="textbox">
+        <input type="text" name="remarques" placeholder="Remarques"/></input>
       </div>
     </div>
-    <div class="form-group row">
-      <div class="col-2"></div>
-      <div class="col-10">
-        <button class="btn btn-success">Enregistrer</button>
-        <a href="{{ url('/') }}" class="btn btn-link">Annuler</a>
+    <div>
+      <div></div>
+      <div class="form-row">
+        <button>Enregistrer</button>
+        <button><a href="{{ url('/803Z') }}">Annuler</a></button>
       </div>
 
     </div>
   </form>
   </div>
-</body>
-</html>
-
 <?php 
 
 }

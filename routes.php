@@ -43,19 +43,17 @@
 
                       'Emprunt' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'show', 'showAll'],
 
-                      'User' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'show', 'connexion', 'sessionStart', 'deconnexion', 'liste'],
+                      'User' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'show', 'connexion', 'sessionStart', 'deconnexion', 'showAll'],
 
-                      'Projet' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'addParticipant', 'addSaveParticipant']);
+                      'Projet' => ['index', 'add', 'addSave', 'edit', 'editSave', 'delete', 'addParticipant', 'addSaveParticipant', 'show', 'showAll']);
 
   if (array_key_exists($controller, $controllers)) {
     if (in_array($action, $controllers[$controller])) {
       call($controller, $action, $id);
     } else {
-      //call('pages', 'error');
       echo "Erreur 404";
     }
   } else {
     echo "Erreur 404";
-    //call('pages', 'error');
   }
 ?>
